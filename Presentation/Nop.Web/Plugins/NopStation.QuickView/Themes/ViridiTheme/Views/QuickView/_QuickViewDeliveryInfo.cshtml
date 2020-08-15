@@ -1,0 +1,44 @@
+﻿@model ProductDetailsModel
+@using Nop.Web.Models.Catalog;
+
+@{ 
+    var shippigSetting = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Core.Domain.Shipping.ShippingSettings>();
+    var productPrice = Model.ProductPrice.PriceValue;
+    Model.IsFreeShipping =  productPrice > shippigSetting.FreeShippingOverXValue;
+}
+
+
+@if (!(String.IsNullOrWhiteSpace(Model.ProductPrice.PriceWithDiscount)))
+{
+
+    var priceWithDiscount = (Model.ProductPrice.PriceWithDiscount).Replace("$", "");
+    var discountPriceValue = (Decimal.Parse(priceWithDiscount));
+    Model.IsFreeShipping = discountPriceValue > shippigSetting.FreeShippingOverXValue;
+
+}
+
+@if ((Model.FreeShippingNotificationEnabled) || !String.IsNullOrWhiteSpace(Model.DeliveryDate))
+{
+    <div class="delivery">
+        @if (!String.IsNullOrWhiteSpace(Model.DeliveryDate))
+        {
+            <div class="delivery-date">
+                <span class="label">Ships within:</span>
+                @*@if (Decimal.Parse(Model.DeliveryDate) > 1)
+                {
+                    <span class="value"> @T("1")-@Model.DeliveryDate business days</span>
+                }*@
+                @if (string.IsNullOrEmpty(Model.DeliveryDate))
+                {
+                    <span class="value"> @T("1")-@Model.DeliveryDate business days</span>
+                }
+                else
+                {
+                    <span class="value"> @Model.DeliveryDate business days</span>
+
+                }
+
+            </div>
+        }
+    </div>
+}

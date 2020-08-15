@@ -1,0 +1,12 @@
+﻿{
+  "Group": "Nop Station",
+  "FriendlyName": "Nop-Station Picture Zoom",
+  "SystemName": "NopStation.PictureZoom",
+  "Version": "4.3.1",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Nop-Station Team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.NopStation.PictureZoom.dll",
+  "Description": "This plugin enables picture zoom on product details page.",
+  "DependsOnSystemNames": [ "NopStation.Core" ]
+}

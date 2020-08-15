@@ -1,0 +1,36 @@
+﻿@model ProductDetailsModel
+@using Nop.Web.Models.Catalog;
+@{var storeLocation = Nop.Core.Infrastructure.EngineContext.Current.Resolve<Nop.Core.IStoreContext>().CurrentStore.Url; }
+@if (!String.IsNullOrWhiteSpace(Model.PageShareCode))
+{
+    <span class="share-item-label">
+        Share item with friend(s)
+    </span>
+    <div class="product-share-button">
+       
+        <script>
+            function fbShare(url, title, descr, image, winWidth, winHeight) {
+                var winTop = (screen.height / 2) - (winHeight / 2);
+                var winLeft = (screen.width / 2) - (winWidth / 2);
+                window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width=' + winWidth + ',height=' + winHeight);
+            }
+        </script>
+        <a href="javascript:fbShare('@storeLocation@Model.SeName', '@Model.Name', '@Model.Name', '@Model.DefaultPictureModel.ImageUrl', 520, 350)">
+            <i class="fa fa-facebook"></i>
+        </a>
+
+        <a target="_blank" href="https://twitter.com/intent/tweet?text='@T("Uvited.SharedOrderText")'&url=@storeLocation@Model.SeName">
+            <i class="fa fa-twitter"></i>
+        </a>
+
+
+        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=@storeLocation@Model.SeName" target="_blank">
+            <i class="fa fa-linkedin" aria-hidden="true"></i>
+        </a>
+
+        <a target="_blank" href="https://plus.google.com/share?url=@storeLocation@Model.SeName">
+            <i class="icon-uvided icon-icon-g-plus"></i>
+        </a>
+
+    </div>
+}

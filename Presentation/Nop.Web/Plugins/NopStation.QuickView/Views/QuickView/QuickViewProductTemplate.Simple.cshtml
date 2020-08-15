@@ -1,0 +1,120 @@
+﻿@model QuickViewProductDetailsModel
+@using System;
+@using Nop.Core.Domain.Seo;
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Framework.UI;
+@using Nop.Core
+@using Nop.Core.Domain.Media
+@inject  MediaSettings mediaSettings
+
+@{
+    //title, meta
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.ProductDetailsModel.MetaTitle) ? Model.ProductDetailsModel.MetaTitle : Model.ProductDetailsModel.Name);
+    Html.AddMetaDescriptionParts(Model.ProductDetailsModel.MetaDescription);
+    Html.AddMetaKeywordParts(Model.ProductDetailsModel.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var productUrl = Url.RouteUrl("Product", new { SeName = Model.ProductDetailsModel.SeName }, this.Url.ActionContext.HttpContext.Request.Scheme);
+        Html.AddCanonicalUrlParts(productUrl);
+    }
+    var storeLocation = EngineContext.Current.Resolve<IStoreContext>().CurrentStore.Url;
+
+}
+@{
+    var product = EngineContext.Current.Resolve<Nop.Services.Catalog.IProductService>().GetProductById(Model.ProductDetailsModel.Id);
+    Model.ProductDetailsModel.AddToCart.DisableBuyButton = Model.ProductDetailsModel.AddToCart.DisableBuyButton || product.StockQuantity < 1;
+}
+<style>
+    .dvCategorylnk.store-directory {
+        display: none;
+    }
+</style>
+<div data-productid="@Model.ProductDetailsModel.Id" class="quick-view-product-details-modal" id="quick-view-product-details-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="product-essential">
+                    @await Html.PartialAsync("_QuickViewProductDetailsPictures", Model.ProductDetailsModel)
+                    <div class="overview">
+                        <form asp-route="Product" asp-route-sename="@Model.ProductDetailsModel.SeName" method="post" id="product-details-form">
+                            <div class="product-name">
+                                <h1 itemprop="name">
+                                    @Model.ProductDetailsModel.Name
+                                </h1>
+                            </div>
+
+                            <!--product manufacturers-->
+                            @await Html.PartialAsync("_QuickViewProductManufacturers", Model.ProductDetailsModel.ProductManufacturers)
+
+                            <!--product reviews-->
+                            @await Html.PartialAsync("_QuickViewProductReviewOverview", Model.ProductDetailsModel.ProductReviewOverview)
+
+                            <!--Price-->
+                            @{
+                                var dataDictPrice = new ViewDataDictionary(ViewData);
+                                dataDictPrice.TemplateInfo.HtmlFieldPrefix = string.Format("price_{0}", Model.ProductDetailsModel.Id);
+                                @await Html.PartialAsync("_QuickViewProductPrice", Model.ProductDetailsModel.ProductPrice, dataDictPrice)
+                            }
+                            <!--availability-->
+                            @await Html.PartialAsync("_QuickViewAvailability", Model.ProductDetailsModel)
+
+                            @{
+                                var dataDictEmiAvail = new ViewDataDictionary(ViewData);
+                                dataDictEmiAvail.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", Model.ProductDetailsModel.Id);
+                                dataDictEmiAvail.Add("ProductPrice", Model.ProductDetailsModel.ProductPrice.PriceValue);
+                            }
+
+                            <!--delivery date-->
+                            @await Html.PartialAsync("_QuickViewDeliveryInfo", Model.ProductDetailsModel)
+
+                            <!--attributes-->
+                            @{
+                                var dataDictAttributes = new ViewDataDictionary(ViewData);
+                                dataDictAttributes.TemplateInfo.HtmlFieldPrefix = string.Format("attributes_{0}", Model.ProductDetailsModel.Id);
+                                @await Html.PartialAsync("_QuickViewProductAttributes", Model.ProductDetailsModel.ProductAttributes, dataDictAttributes)
+                            }
+                            <!--gift card-->
+                            @{
+                                var dataDictGiftCard = new ViewDataDictionary(ViewData);
+                                dataDictGiftCard.TemplateInfo.HtmlFieldPrefix = string.Format("giftcard_{0}", Model.ProductDetailsModel.Id);
+                                @await Html.PartialAsync("_QuickViewGiftCardInfo", Model.ProductDetailsModel.GiftCard, dataDictGiftCard)
+                            }
+
+                            <!-- add to cart-->
+                            @{
+                                var dataDictAddToCart = new ViewDataDictionary(ViewData);
+                                dataDictAddToCart.TemplateInfo.HtmlFieldPrefix = string.Format("addtocart_{0}", Model.ProductDetailsModel.Id);
+                                @await Html.PartialAsync("_QuickViewAddToCart", Model.ProductDetailsModel.AddToCart, dataDictAddToCart)
+                            }
+
+                            <!--Seller/Vendor info-->
+                            @await Html.PartialAsync("_QuickViewProductVendor", Model.ProductDetailsModel)
+                        </form>
+
+                    </div>
+                </div>
+
+                @if (Model.ShowAlsoPurchasedProducts)
+                {
+                    @await Component.InvokeAsync("ProductsAlsoPurchased", new { productId = Model.ProductDetailsModel.Id })
+                }
+                @if (Model.ShowRelatedProducts)
+                {
+                    @await Component.InvokeAsync("RelatedProducts", new { productId = Model.ProductDetailsModel.Id })
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script asp-location="Footer">
+    $(window).load(function () {
+        $(".thumbnails img").on.click(function () {
+            $(".thumbnails img").removeClass("active");
+            $(this).addClass("active");
+            $(".largeImg").attr("src", $(this).attr("src"));
+        });
+    });
+</script>

@@ -1,0 +1,32 @@
+/* product ribon */
+.offer-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10001;
+}
+  .offer-content > div {
+    background: #d31039;
+    text-align: center;
+  }
+
+  .offer-content .offer-box {
+    background: #d31039;
+    padding: 7px;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 14px;
+    display: inline-block;
+  }
+  .offer-content .discount-info-label {
+    background: #23ad10 !important;
+  }
+  .offer-content .discount-info-label,
+  .offer-content .bestseller-label {
+    background: #46282a;
+  }
+
+.offer-content .new-products {
+  background: #46282a;
+}

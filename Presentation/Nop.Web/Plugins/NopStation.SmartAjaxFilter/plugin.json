@@ -1,0 +1,12 @@
+﻿{
+  "Group": "Nop Station",
+  "FriendlyName": "Nop-Station Smart Ajax Filter",
+  "SystemName": "NopStation.SmartAjaxFilter",
+  "Version": "4.3.1",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Nop-Station Team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.NopStation.SmartAjaxFilter.dll",
+  "Description": "AjaxFilter",
+  "DependsOnSystemNames": [ "NopStation.Core" ]
+}

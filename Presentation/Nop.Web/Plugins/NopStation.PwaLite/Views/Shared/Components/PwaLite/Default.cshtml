@@ -1,0 +1,4 @@
+﻿@inject Nop.Core.IStoreContext storeContext
+
+<link rel="manifest" href="~/manifest_@(storeContext.CurrentStore.Id.ToString("000000")).json" />
+<script src="~/nopstation.app_@(storeContext.CurrentStore.Id.ToString("000000")).js"></script>

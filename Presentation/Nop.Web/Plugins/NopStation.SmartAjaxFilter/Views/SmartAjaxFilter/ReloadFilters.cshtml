@@ -1,0 +1,24 @@
+﻿@model Nop.Plugin.NopStation.SmartAjaxFilter.Models.ProductsModel
+@using Nop.Web.Extensions;
+
+@{
+    var productIdList = Model.Products.Select(x => x.Id).ToList();
+}
+
+@if (Model.Products.Count() > 0)
+{
+    <div class="@(Model.ViewMode == "list"? "product-list" : "product-grid")">
+        <div class="item-grid">
+            @foreach (var product in Model.Products)
+            {
+                <div class="item-box">
+                    @await Html.PartialAsync("_ProductBox", product)
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="pager">
+        @Html.Pager(Model.PagingFilteringContext).QueryParam("pagenumber")
+    </div>
+}

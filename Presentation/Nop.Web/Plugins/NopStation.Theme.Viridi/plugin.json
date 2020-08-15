@@ -1,0 +1,12 @@
+﻿{
+  "Group": "Nop Station",
+  "FriendlyName": "Nop-Station Viridi Theme",
+  "SystemName": "NopStation.Theme.Viridi",
+  "Version": "4.3.1",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Nop-Station Team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.NopStation.Theme.Viridi.dll",
+  "Description": "This plugin allows to configure NopStation Viridi theme.",
+  "DependsOnSystemNames": [ "NopStation.Core" ]
+}

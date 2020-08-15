@@ -1,0 +1,191 @@
+﻿@model MegaMenuModel
+@using Nop.Core
+@using Nop.Services.Helpers
+@using Nop.Web.Framework.UI
+@inject IWorkContext workContext
+@inject IUserAgentHelper userAgentHelper
+@{
+    var supportRtl = workContext.WorkingLanguage.Rtl;
+
+    //add main CSS file
+    if (supportRtl)
+    {
+        Html.AddCssFileParts("~/Plugins/NopStation.MegaMenu/Themes/ViridiTheme/Content/megamenu.rtl.css");
+    }else
+    {
+        Html.AddCssFileParts("~/Plugins/NopStation.MegaMenu/Themes/ViridiTheme/Content/megamenu.css");
+    }
+}
+
+@{
+    <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+        <ul class="navbar-nav flex-wrap">
+            @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderMenuBefore })
+            @if (Model.DisplayHomePageMenuItem)
+            {
+                <li class="nav-item first-lebel-nav"> <a class="nav-link" href="@Url.RouteUrl("HomePage")">@T("HomePage")</a></li>
+            }
+
+            @if (Model.Categories.Any())
+            {
+                <li class="dropdown nav-item dropdown-menu-list">
+                    <a class="btn btn-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@T("NopStation.MegaMenu.Public.Categories")</a>
+                    <div class="dropdown-menu dropdown-menu-right second-dropdown" aria-labelledby="dropdownMenuButton">
+                        <ul class="list-unstyled">
+                            @foreach (var category in Model.Categories)
+                            {
+                                var categoryLineModel = new MegaMenuModel.CategoryLineModel
+                                {
+                                    Category = category,
+                                    MaxLevel = Model.MaxCategoryLevelsToShow
+                                };
+                                @await Html.PartialAsync("_CategoryLine.MegaMenu.cshtml", categoryLineModel)
+                            }
+                        </ul>
+                    </div>
+                </li>
+            }
+
+            @if (Model.Manufacturers.Any())
+            {
+                <li class="dropdown nav-item dropdown-menu-list">
+                    <a class="btn btn-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink manufacture-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> @T("NopStation.MegaMenu.Public.Manufacturers")</a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <div class="second-dropdown">
+                            <ul class="list-unstyled">
+                                @foreach (var manufacturer in Model.Manufacturers)
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a href="@Url.RouteUrl("Manufacturer", new { SeName = manufacturer.SeName })">
+                                            @if (manufacturer.PictureModel != null && !string.IsNullOrEmpty(manufacturer.PictureModel.ImageUrl))
+                                            {
+                                                <img class="img-fluid" src="@manufacturer.PictureModel.ImageUrl" alt="@manufacturer.PictureModel.ThumbImageUrl" />
+                                            }
+                                            <span>@manufacturer.Name</span>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                            <div class="all-manufacture text-center"> <a href="@Url.RouteUrl("ManufacturerList")"> @T("NopStation.MegaMenu.Public.AllManufacturers") </a> </div>
+                        </div>
+                    </div>
+                </li>
+            }
+
+            @foreach (var topic in Model.Topics)
+            {
+                <li class="nav-item first-lebel-nav"> <a class="nav-link" href="@Url.RouteUrl("Topic", new { SeName = topic.SeName })">@topic.Name</a></li>
+            }
+
+            @if (Model.NewProductsEnabled && Model.DisplayNewProductsMenuItem)
+            {
+                <li class="nav-item first-lebel-nav"> <a class="nav-link" href="@Url.RouteUrl("NewProducts")">@T("Products.NewProducts")</a></li>
+            }
+
+            @if (Model.DisplayProductSearchMenuItem)
+            {
+                <li class="nav-item first-lebel-nav"> <a class="nav-link" href="@Url.RouteUrl("ProductSearch")">@T("Search")</a></li>
+            }
+            @if (Model.DisplayCustomerInfoMenuItem)
+            {
+                <li class="nav-item first-lebel-nav"> <a class="nav-link" href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a></li>
+            }
+            @if (Model.BlogEnabled && Model.DisplayBlogMenuItem)
+            {
+                <li class="nav-item first-lebel-nav"> <a class="nav-link" href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
+            }
+            @if (Model.ForumEnabled && Model.DisplayForumsMenuItem)
+            {
+                <li class="nav-item first-lebel-nav"> <a class="nav-link" href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
+            }
+            @if (Model.DisplayContactUsMenuItem)
+            {
+                <li class="nav-item first-lebel-nav"> <a class="nav-link" href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a> </li>
+            }
+
+            @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderMenuAfter })
+        </ul>
+    </div>
+
+    var rootCategoriesResponsive = Model.Categories.ToList();
+    //name it "Categories" if we have only categories. Otherwise, "Menu"
+    var responsiveMenuTitle = Model.HasOnlyCategories ? T("Categories") : T("Menu");
+    <div class="menu-toggle-btn"><span class="icon-nav"></span></div>
+    <ul class="top-menu mobile mobile-menu">
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.MobHeaderMenuBefore })
+        @{
+            <div><button type="button" class="btn-close-menu" id="close-menu">X</button> </div>
+        }
+
+        @if (Model.DisplayHomePageMenuItem)
+        {
+            <li class="nav-item"> <a class="nav-link" href="@Url.RouteUrl("HomePage")">@T("HomePage")</a></li>
+        }
+        @foreach (var category in Model.Categories)
+        {
+            var categoryLineModel = new MegaMenuModel.CategoryLineModel
+            {
+                Category = category
+            };
+            @await Html.PartialAsync("_CategoryLine.MegaMenu.cshtml", categoryLineModel)
+        }
+        @foreach (var topic in Model.Topics)
+        {
+            <li class="nav-item"> <a class="nav-link" href="@Url.RouteUrl("Topic", new { SeName = topic.SeName })">@topic.Name</a></li>
+        }
+        @if (Model.NewProductsEnabled && Model.DisplayNewProductsMenuItem)
+        {
+            <li class="nav-item"> <a class="nav-link" href="@Url.RouteUrl("NewProducts")">@T("Products.NewProducts")</a></li>
+        }
+        @if (Model.DisplayProductSearchMenuItem)
+        {
+            <li class="nav-item"> <a class="nav-link" href="@Url.RouteUrl("ProductSearch")">@T("Search")</a></li>
+        }
+        @if (Model.DisplayCustomerInfoMenuItem)
+        {
+            <li class="nav-item"> <a class="nav-link" href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a></li>
+        }
+        @if (Model.BlogEnabled && Model.DisplayBlogMenuItem)
+        {
+            <li class="nav-item"> <a class="nav-link" href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
+        }
+        @if (Model.ForumEnabled && Model.DisplayForumsMenuItem)
+        {
+            <li class="nav-item"> <a class="nav-link" href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
+        }
+        @if (Model.DisplayContactUsMenuItem)
+        {
+            <li class="nav-item"> <a class="nav-link" href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a></li>
+        }
+        @{
+            <li class="nav-item">
+                <div class="w-100 mb-1">
+                    @await Component.InvokeAsync("TaxTypeSelector")
+                    @await Component.InvokeAsync("CurrencySelector")
+                </div>
+                <div class="w-100 mb-1">
+                    @await Component.InvokeAsync("LanguageSelector")
+                    @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.HeaderSelectors })
+
+                </div>
+            </li>
+        }
+        @await Component.InvokeAsync("Widget", new { widgetZone = PublicWidgetZones.MobHeaderMenuAfter })
+    </ul>
+
+    <script asp-location="Footer">
+        $(document).ready(function () {
+            $('.menu-toggle').on('click', function () {
+                $(this).siblings('.top-menu.mobile').slideToggle('slow');
+            });
+            $('.top-menu.mobile .sublist-toggle').on('click', function () {
+                $(this).siblings('.sublist').slideToggle('slow');
+            });
+        });
+        //close
+        $("#close-menu").on("click", function () {
+            $('.mobile-menu').removeClass('isActive');
+        })
+
+    </script>
+}

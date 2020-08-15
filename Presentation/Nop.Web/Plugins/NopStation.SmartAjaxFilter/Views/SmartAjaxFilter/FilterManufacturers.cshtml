@@ -1,0 +1,58 @@
+﻿@model FilterManufacturersModel
+@using Nop.Plugin.NopStation.SmartAjaxFilter.Domains;
+@using Nop.Plugin.NopStation.SmartAjaxFilter.Models;
+
+@if (Model.Manufacturers != null && Model.Manufacturers.Count > 0)
+{
+    <div id="manufacturers-filter-section">
+
+        <div class="manufacturer-section m-0">
+            <div class="filter-section">
+                <div class="title">
+                    <h5 class="mb-0 collapsed ajaxfilter-title" data-toggle="collapse" data-parent="#manufacturerNavigation" data-target="#manufacturerNavigation" aria-expanded="true" aria-controls="collapseOne">
+                        @T("NopStation.SmartAjaxFilter.Filters.Manufacturers") <i class="fa fa-angle-down rotate-icon float-right"></i>
+                    </h5>
+                </div>
+
+                <div class="listbox collapse show" id="manufacturerNavigation" aria-labelledby="manufacturerNavigation">
+                    <div class="ajaxfilter-section pb-0">
+                        @if (Model.CheckOrDropdown == FiltersUI.UseCheckboxes)
+                        {
+                            <ul>
+                                @for (int i = 0; i < Model.Manufacturers.OrderBy(pva => pva.Name).Count(); i++)
+                                {
+                                    var manufacturerFilterItem = Model.Manufacturers.OrderBy(pva => pva.Name).ElementAt(i);
+                                    <li data-id="@manufacturerFilterItem.Id">
+                                        <input class="Name-@manufacturerFilterItem.Id d-none" type="checkbox" name="manufacturerModel][Manufacturers][@i][Id" value="@manufacturerFilterItem.Id" onchange="AjaxFilterChildren.listenToCheckBox(this, 'Name-@manufacturerFilterItem.Id', '@manufacturerFilterItem.Name'), AjaxFilter.setFilter('m'), AjaxFilterChildren.resetFilters() " id="manufacturerModel_Manufacturers_@(i)_Id"
+                                               @(manufacturerFilterItem.CheckedState == CheckedState.Checked ? "Checked" : "")
+                                               @(manufacturerFilterItem.CheckedState == CheckedState.Disabled ? "Disabled" : "")
+                                               @(manufacturerFilterItem.CheckedState == CheckedState.CheckedDisabled ? "Disabled Checked" : "") />
+                                        <input type="hidden" name="manufacturerModel][Manufacturers][@i][Id" value=@(manufacturerFilterItem.CheckedState == CheckedState.CheckedDisabled ? manufacturerFilterItem.Id.ToString() : "0")>
+                                        <input type="hidden" name="manufacturerModel][Manufacturers][@i][Count" value="@manufacturerFilterItem.Count">
+                                        <input type="hidden" name="manufacturerModel][Manufacturers][@i][Name" value="@manufacturerFilterItem.Name">
+
+                                        <label for="manufacturerModel_Manufacturers_@(i)_Id">
+                                            <span class="square @(manufacturerFilterItem.CheckedState == CheckedState.Checked ? "active" : "") Name-@(manufacturerFilterItem.Id)" id="square_specyficationModel_SpecificationAttributes_@(manufacturerFilterItem.Id)_@(i)_Id"></span>
+                                            <i>@manufacturerFilterItem.Name</i>
+                                            <span>(@manufacturerFilterItem.Count)</span>
+                                        </label>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else if (Model.CheckOrDropdown == FiltersUI.UseDropdowns)
+                        {
+                            <select name="manufacturerModel][Manufacturers][0][Id" class="group-dropdown" id="manufacturerModel_Manufacturers_0_Id" onchange="AjaxFilter.setFilter('m'), AjaxFilterChildren.listenToSelect('manufacturerModel_Manufacturers_0_Id')">
+                                <option value="" selected="selected"> @(Model.Manufacturers.Where(x => x.CheckedState != CheckedState.Disabled).Count() > 0 ? T("NopStation.SmartAjaxFilter.Filters.All") : T("NopStation.SmartAjaxFilter.Filters.Empty"))</option>
+                                @foreach (var manufacturerFilterItem in Model.Manufacturers.Where(x => x.CheckedState != CheckedState.Disabled).OrderBy(pva => pva.Name))
+                                {
+                                    @:<option value="@manufacturerFilterItem.Id" @(manufacturerFilterItem.CheckedState == CheckedState.Checked || manufacturerFilterItem.CheckedState == CheckedState.CheckedDisabled ? "Selected" : "" )>@manufacturerFilterItem.Name</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

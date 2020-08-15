@@ -1,0 +1,29 @@
+﻿@model ProductDetailsModel
+@using Nop.Web.Models.Catalog;
+@using Nop.Web.Framework
+@using Nop.Web.Framework.UI
+
+@if (Model.DisplayBackInStockSubscription)
+{
+    <div class="back-in-stock-subscription">
+        <a id="back-in-stock-subscribe-@Model.Id" class="subscribe-button">
+            <i class="icon-uvided icon-cart"></i>
+            <span>
+                Notify Me
+            </span>
+        </a>
+        <script type="text/javascript" asp-location="Footer">
+            $(document).ready(function() {
+                $("#back-in-stock-subscribe-@Model.Id").fancybox({
+                    'href': '@Url.RouteUrl("BackInStockSubscribePopup", new { productId = Model.Id })',
+                    'speedIn': 600,
+                    'speedOut': 200,
+                    'width': 450,
+                    'height': 255,
+                    'type': 'iframe',
+                    'centerOnScroll': true
+                });
+            });
+        </script>
+    </div>
+}

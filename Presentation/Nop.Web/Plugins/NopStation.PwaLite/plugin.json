@@ -1,0 +1,12 @@
+﻿{
+  "Group": "Nop Station",
+  "FriendlyName": "Nop-Station PWA Lite",
+  "SystemName": "NopStation.PwaLite",
+  "Version": "4.3.1",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "Nop-Station Team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.NopStation.PwaLite.dll",
+  "Description": "This plugin allows progressive web app on public store.",
+  "DependsOnSystemNames": [ "NopStation.Core" ]
+}

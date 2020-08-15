@@ -1,0 +1,57 @@
+﻿@model Nop.Plugin.NopStation.SmartAjaxFilter.Models.PublicInfoModel
+
+<form id="ajaxfilter-form" action="">
+    <input type="hidden" name="CategoryId" value=@(Model.CategoryId)>
+    <input type="hidden" name="ManufacturerId" value=@(Model.ManufacturerId)>
+    <input type="hidden" name="EnableManufacturersFilter" value="@(Model.EnableManufacturersFilter.ToString())">
+    <input type="hidden" name="EnableVendorsFilter" value="@(Model.EnableVendorsFilter.ToString())">
+    <input type="hidden" name="EnablePriceRangeFilter" value="@(Model.EnablePriceRangeFilter.ToString())">
+    <input type="hidden" name="EnableSpecificationsFilter" value="@(Model.EnableSpecificationsFilter.ToString())">
+    <input type="hidden" name="EnableAttributesFilter" value="@(Model.EnableAttributesFilter.ToString())">
+    <input type="hidden" name="ViewMode" id="ViewMode" value="@(Model.ViewMode)">
+    <input type="hidden" name="PageSize" id="PageSize" value="@(Model.PageSize)">
+    <input type="hidden" name="SortOption" id="SortOption" value="@(Model.SortOption)">
+    <input type="hidden" name="PageNumber" id="PageNumber" value="@(Model.PageNumber)">
+    <input type="hidden" name="RequestPath" id="RequestPath" value="@(Model.RequestPath)">
+    <input type="hidden" name="RequestParams" id="RequestParams" value="@(Model.RequestParams)">
+    <input type="hidden" name="RouteValues" id="RouteValues" value="@(Model.RouteValues)">
+
+    <input type="hidden" name="Count" id="Count" value="@(Model.Count)">
+    <div class="filter-title accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+        <h4 data-toggle="collapse" data-parent="#accordionEx" data-target="#collapseOne11" aria-expanded="false" aria-controls="collapseOne11">@T("product-filter")  <i class="fa fa-angle-down rotate-icon float-right"></i> </h4>
+    </div>
+    <div class="ajax-filter-section collapse show" id="collapseOne11" role="tabpanel" aria-labelledby="headingOne1" data-parent="#accordionEx">
+        @{
+            if (Model.EnablePriceRangeFilter)
+            {
+                @await Html.PartialAsync("FilterPriceRange.cshtml", Model.filterPriceModel)
+            }
+            if (Model.EnableAttributesFilter)
+            {
+                @await Html.PartialAsync("FilterAttributes.cshtml", Model.attributesModel)
+            }
+            if (Model.EnableManufacturersFilter)
+            {
+                @await Html.PartialAsync("FilterManufacturers.cshtml", Model.manufacturerModel)
+            }
+            if (Model.EnableSpecificationsFilter)
+            {
+                @await Html.PartialAsync("FilterSpecifications.cshtml", Model.specyficationModel)
+            }
+            if (Model.EnableVendorsFilter)
+            {
+                @await Html.PartialAsync("FilterVendors.cshtml", Model.vendorsModel)
+            }
+        }
+    </div>
+</form>
+
+@{
+    <div class="d-flex">
+        <input type="button" class="clearAllfilters" onclick="AjaxFilterChildren.clearAll('clearAllfilters')" value="@T("NopStation.SmartAjaxFilter.Filters.ClearAll")" />
+    </div>
+}
+
+<script asp-location="Footer">
+    AjaxFilterChildren.init();
+</script>

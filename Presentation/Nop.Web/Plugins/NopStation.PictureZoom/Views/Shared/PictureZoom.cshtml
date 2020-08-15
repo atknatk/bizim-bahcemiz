@@ -1,0 +1,3 @@
+﻿@model Nop.Web.Models.Catalog.ProductDetailsModel
+
+@await Component.InvokeAsync("PictureZoom", new { productId = Model.Id })

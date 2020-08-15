@@ -1,0 +1,48 @@
+﻿@using Nop.Web.Framework.UI;
+@using Nop.Core.Infrastructure;
+
+@{
+    Html.AddCssFileParts("~/Plugins/NopStation.SmartAjaxFilter/Content/jquery-ui.min.css");
+    Html.AddCssFileParts("~/Plugins/NopStation.SmartAjaxFilter/Content/style.css");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/NopStation.SmartAjaxFilter/Content/ajaxfilter.manager.js");
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Plugins/NopStation.SmartAjaxFilter/Content/ajax.filterchildren.js");
+}
+
+<div class="nop-ajax-filters">
+    <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+</div>
+
+<script asp-location="Footer">
+    $(document).ready(function () {
+        $('.category-page .product-filters').hide();
+
+        if ($(".product-grid").not(".featured-product-grid").length) {
+            $("<div class='ajax-products'></div>").insertBefore('.product-grid:not(".featured-product-grid")');
+            $('.product-grid:not(".featured-product-grid")').appendTo('.ajax-products');
+        }
+        if ($(".product-list").not(".featured-product-grid").length) {
+            $("<div class='ajax-products'></div>").insertBefore('.product-list:not(".featured-product-grid")');
+            $('.product-list:not(".featured-product-grid")').appendTo('.ajax-products');
+        }
+        $('.pager').appendTo('.ajax-products');
+
+        AjaxFilter.init('@Url.RouteUrl("SmartAjaxFilterReloadFilters")');
+
+        $.ajax({
+            cache: false,
+            type: "Post",
+            url: '@Url.RouteUrl("SmartAjaxFilterLoadFilters")',
+            success: function (response) {
+                $('.' + response.update_section.name).html(response.update_section.html);
+                if(response.update_section.reload == true)
+                {
+                    AjaxFilter.setFilter('reload');
+                }
+            },
+        });
+    });
+</script>

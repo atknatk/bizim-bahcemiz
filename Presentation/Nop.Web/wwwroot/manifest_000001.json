@@ -1,0 +1,46 @@
+﻿{
+  "name": "Nop-Station",
+  "short_name": "NopStation",
+  "theme_color": "#10069f",
+  "background_color": "#10069f",
+  "display": "standalone",
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "http://localhost:15536/images/thumbs/0000009_nop-station_72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "http://localhost:15536/images/thumbs/0000009_nop-station_96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "http://localhost:15536/images/thumbs/0000009_nop-station_128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "http://localhost:15536/images/thumbs/0000009_nop-station_144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "http://localhost:15536/images/thumbs/0000009_nop-station_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "http://localhost:15536/images/thumbs/0000009_nop-station_384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "http://localhost:15536/images/thumbs/0000009_nop-station_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "splash_pages": null
+}

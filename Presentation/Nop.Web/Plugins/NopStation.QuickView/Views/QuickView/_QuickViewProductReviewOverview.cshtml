@@ -1,0 +1,77 @@
+﻿@model ProductReviewOverviewModel
+@using System.Globalization
+@using Nop.Core.Infrastructure;
+@using Nop.Services.Catalog;
+@using Nop.Web.Models.Catalog;
+@{
+    var _productService = EngineContext.Current.Resolve<IProductService>();
+
+    var product = _productService.GetProductById(Model.ProductId);
+
+    int ratingPercent = 0;
+    if (Model.TotalReviews != 0)
+    {
+        ratingPercent = ((Model.RatingSum * 100) / Model.TotalReviews) / 5;
+    }
+}
+
+<div class="product-reviews-overview d-flex align-items-center" @if (Model.TotalReviews > 0) { <text> itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating" </text>     }>
+    @if (Model.AllowCustomerReviews)
+    {
+        @*<div class="product-review-box">
+            <div class="rating">
+                <div style="width: @(ratingPercent)%">
+                </div>
+            </div>
+        </div>*@
+
+        if (Model.TotalReviews > 0)
+        {
+            @*<div class="product-review-links ml-2">
+                <a href="@Url.RouteUrl("ProductReviews", new { productId = Model.ProductId })">
+                    (@Model.TotalReviews)
+                    @T("Reviews.Overview.Reviews")
+                </a>
+            </div>
+            <div>
+                <span class="separator mx-2">/</span>
+                <a class="add-review" href="@Url.RouteUrl("ProductReviews", new { productId = Model.ProductId })">write a review</a>
+            </div>*@
+
+            @*hidden microdata info*@
+    decimal ratingValue = ratingPercent / (decimal)20;
+    <span itemprop="ratingValue" style="display: none;">@ratingValue.ToString("0.0", new CultureInfo("en-US"))</span>
+    <span itemprop="reviewCount" style="display: none;">@Model.TotalReviews</span>
+        }
+        else
+        {
+            @*<div class="product-no-reviews">
+                <a href="@Url.RouteUrl("ProductReviews", new { productId = Model.ProductId })">@T("Reviews.Overview.First")</a>
+            </div>*@
+        }
+    }
+    @*@if (product.Weight > 0)
+    {
+        <span class="pack" style="display:none">
+            Pack of @product.Weight FZ / each
+        </span>
+    }
+
+    @if (!(String.IsNullOrEmpty(product.Gtin)))
+    {
+        <span class="upc">
+            <b>
+                UPC:
+            </b> @product.Gtin
+        </span>
+    }
+
+    @if (!(String.IsNullOrEmpty(product.Sku)))
+    {
+        <span class="sku">
+            <b>
+                SKU:
+            </b> @product.Sku
+        </span>
+    }*@
+</div>

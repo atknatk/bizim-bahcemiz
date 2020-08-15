@@ -1,0 +1,14 @@
+﻿@model ProductDetailsModel
+@using Nop.Core.Domain.Catalog
+@*Vendor*@
+@if (Model.ShowVendor)
+{
+    <div class="product-vendor attributes call-for-order">
+        <div class="title">Call For Order : 09613-800800</div>
+        <p>
+            @T("Products.Vendor") : <a class="primary-text" href="@Url.RouteUrl("Vendor", new { SeName = Model.VendorModel.SeName })">@Model.VendorModel.Name</a>
+        </p>
+        <p>Seller Score : <span class="primary-bg">4.5/5</span></p>
+        <p><span>555+</span> Successfull Sales</p>
+    </div>
+}

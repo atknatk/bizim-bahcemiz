@@ -1,0 +1,286 @@
+/*custom home page slider css*/
+.home-top-slider .home-top-slider-inner .owl-nav {
+  position: absolute;
+  bottom: 15px;
+  left: 45px;
+  color: #fff;
+}
+/*top slider*/
+
+.home-top-slider .home-top-slider-inner .slider-text {
+  height: auto;
+}
+
+.home-top-slider .home-top-slider-inner .owl-nav {
+  height: auto;
+}
+
+.home-top-slider {
+  width: 100%;
+  flex: 0 0 100%;
+  height: 100%;
+  padding: 30px 70px;
+}
+
+  .home-top-slider .OCarousel-item {
+    overflow: hidden;
+  }
+
+    .home-top-slider .OCarousel-item:hover .slider-text {
+      background: rgba(255, 88, 116, 0.8);
+    }
+
+    .home-top-slider .OCarousel-item img {
+      transition: all 0.4s
+    }
+
+    .home-top-slider .OCarousel-item:hover img {
+      transform: scale(1.1);
+    }
+
+
+  .home-top-slider .home-top-slider-inner .slider-text {
+    background: rgba(0, 0, 0, 0.7);
+    margin: auto;
+    position: absolute;
+    width: 100%;
+    bottom: 50px;
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    z-index: 5;
+    transition: all 0.3s;
+  }
+  .home-top-slider * {
+    height: 100%;
+  }
+@media(max-width: 575px) {
+  .home-top-slider .home-top-slider-inner .slider-text {
+    font-size: 12px;
+  }
+
+  .home-top-slider {
+    margin-top: 0;
+  }
+
+  .home-top-slider {
+    padding: 20px 20px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .home-top-slider {
+    padding: 30px 40px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .home-top-slider {
+    padding: 30px 40px;
+  }
+}
+.homepagePromotionSlider .promotion-carousel-caption h2 {
+  font-size: 40px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.homepagePromotionSlider .owl-item.active .promotion-carousel-caption {
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+}
+.homepagePromotionSlider .owl-item .promotion-carousel-caption .shopbutton {
+  padding: 10px 30px;
+  font-size: 18px;
+  display: inline-block;
+  border: 2px solid #007aff;
+  background-color: #007aff;
+  color: #fffffd;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+  .homepagePromotionSlider .owl-item .promotion-carousel-caption .shopbutton::after {
+    content: "\f054";
+    display: inline;
+    margin-left: 5px;
+    font-family: "font awesome 5 free";
+    font-weight: 900;
+  }
+.homepagePromotionSlider .picture::after {
+  background: none !important;
+}
+.homepagePromotionSlider .homepage-promotion {
+  width: 100%;
+  margin: 0 auto;
+  color: #212121;
+  position: relative;
+  background-color: #fffffd;
+}
+.homepagePromotionSlider .owl-stage-outer {
+  padding-bottom: 0;
+}
+.homepagePromotionSlider .promotion-carousel-caption {
+  text-align: center;
+  top: 30%;
+  position: relative;
+}
+.homepagePromotionSlider .owl-item .promotion-carousel-caption p {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.homepage-promotion .owl-dots {
+  display: none;
+}
+/*...starts css for dot*/
+.anywhere-slider-1 .owl-dots {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: 10000;
+}
+
+  .anywhere-slider-1 .owl-dots .owl-dot span {
+    display: inline-block;
+    background: #fff;
+    height: 10px;
+    width: 10px;
+    margin: 5px;
+    border-radius: 50%;
+    opacity: .4;
+  }
+
+  .anywhere-slider-1 .owl-dots .owl-dot.active span {
+    height: 15px;
+    width: 15px;
+    opacity: .6;
+  }
+/*...ends css for dot*/
+
+/*...starts css for nav*/
+.anywhere-slider-container .owl-carousel .owl-nav {
+  position: absolute;
+  top: 50%;
+  margin-top: -29px;
+  width: 100%;
+}
+
+  .anywhere-slider-container .owl-carousel .owl-nav .owl-prev,
+  .anywhere-slider-container .owl-carousel .owl-nav .owl-next,
+  .anywhere-slider-container .owl-carousel .owl-dot {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+.anywhere-slider-container .owl-nav button {
+  display: inline-block;
+  color: #fffffd;
+  background-color: #007aff !important;
+  font-size: 0;
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
+  background: linear-gradient(45deg,#007aff 0%,#1976D2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$theme_color',endColorstr='$theme_light_color',GradientType=1 );
+}
+
+.anywhere-slider-container .owl-carousel .owl-nav button.owl-prev,
+.anywhere-slider-container .owl-carousel .owl-nav button.owl-next,
+.anywhere-slider-container .owl-carousel button.owl-dot {
+  background: 0 0;
+  color: inherit;
+  border: none;
+  padding: 0 !important;
+  font: inherit;
+  outline: none;
+}
+
+.anywhere-slider-container .owl-carousel .owl-nav button.owl-prev {
+  position: absolute;
+  left: 10px;
+  direction: ltr;
+}
+
+.anywhere-slider-container .owl-carousel .owl-nav button.owl-next {
+  position: absolute;
+  right: 10px;
+  margin: 0;
+  direction: ltr;
+}
+
+.anywhere-slider-container .owl-nav button span {
+  color: #fffffd;
+  color: #fffffd;
+  font-size: 32px;
+  line-height: 32px !important;
+}
+/*...ends css for nav*/
+
+
+/*...start slider text*/
+.anywhere-slider-1 .slider-caption {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: #fffffd;
+  width: 50%;
+  text-align: center;
+}
+
+.anywhere-slider-1 .owl-item:nth-child(even) .slider-caption {
+  left: 50%;
+}
+.anywhere-slider-item .slider-btn {
+  padding: 8px 15px 8px;
+}
+.anywhere-slider-container .slider-caption h2 {
+  font-size: 50px;
+  margin-bottom: 15px;
+  text-transform: uppercase !important;
+  margin-bottom: 0 !important;
+  font-weight: 900;
+}
+
+.anywhere-slider-1 .slider-caption h3 {
+  font-size: 24px;
+  font-weight: 500 !important;
+}
+
+.anywhere-slider-1 .slider-caption .slider-btn {
+  font-size: 20px;
+}
+
+  .anywhere-slider-1 .slider-caption .slider-btn::before {
+    content: "\e908";
+    margin-top: 30px;
+    font-family: icomoon !important;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 20px;
+    padding-right: 5px;
+  }
+/*...end slider text*/
+@media(max-width: 575px) {
+  .anywhere-slider-1 .slider-caption .slider-btn,
+  .anywhere-slider-1 .slider-caption .slider-btn::before {
+    font-size: 14px;
+  }
+}

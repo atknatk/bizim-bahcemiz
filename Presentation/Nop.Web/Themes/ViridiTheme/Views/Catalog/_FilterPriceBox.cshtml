@@ -1,0 +1,56 @@
+﻿@model CatalogPagingFilteringModel.PriceRangeFilterModel
+@{
+    var selectedItem = Model.Items.FirstOrDefault(x => x.Selected);
+}
+
+@functions{
+
+    public string FormatPriceRangeText(CatalogPagingFilteringModel.PriceRangeFilterItem filterItem)
+    {
+        var rangeText = "";
+        if (string.IsNullOrWhiteSpace(filterItem.From))
+        {
+            rangeText = string.Format(T("Filtering.PriceRangeFilter.Under").Text, $"<span class=\"PriceRange\">{filterItem.To}</span>");
+        }
+        else if (string.IsNullOrWhiteSpace(filterItem.To))
+        {
+            rangeText = string.Format(T("Filtering.PriceRangeFilter.Over").Text, $"<span class=\"PriceRange\">{filterItem.From}</span>");
+        }
+        else
+        {
+            rangeText = $"<span class=\"PriceRange\">{filterItem.From}</span> - <span class=\"PriceRange\">{filterItem.To}</span>";
+        }
+        return rangeText;
+    }
+}
+@if (Model.Enabled)
+{
+    <div class="product-filter price-range-filter my-3 d-flex align-items-center">
+        <div class="filter-title mr-3">
+            <strong>@T("Filtering.PriceRangeFilter"): </strong>
+        </div>
+        <div class="filter-content">
+            @if (selectedItem == null)
+            {
+                <div class="available-items">
+                    <ul class="group price-range-group list-inline mb-0">
+                        @foreach (var item in Model.Items)
+                        {
+                            <li class="list-inline-item"><a class="btn btn-success btn-sm" href="@item.FilterUrl">@Html.Raw(FormatPriceRangeText(item))</a></li>
+                        }
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <div class="filtered-items d-inline-block">
+                    <span class="item btn btn-success disabled">@Html.Raw(FormatPriceRangeText(selectedItem))</span>
+                </div>
+                <div class="remove-filter d-inline-block">
+                    <a class="btn btn-success" href="@Model.RemoveFilterUrl">@T("Filtering.PriceRangeFilter.Remove")</a>
+                </div>
+            }
+        </div>
+
+    </div>
+}

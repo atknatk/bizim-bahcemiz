@@ -1,0 +1,47 @@
+﻿@model CatalogPagingFilteringModel
+    <div class="product-selectors row form-inline py-2">
+        @*view mode*@
+        @if (Model.AllowProductViewModeChanging)
+        {
+            <div class="col-4 order-2">
+                <div class="product-viewmode text-md-right">
+                    <!-- <span>@T("Catalog.ViewMode"): </span> -->
+                    @if (Model.AvailableViewModes.Count > 1)
+                    {
+                        var gridMode = Model.AvailableViewModes[0];
+                        var listMode = Model.AvailableViewModes[1];
+
+                        <a class="btn btn-sm viewmode-icon grid @if(gridMode.Selected){<text>active</text>}" href="@gridMode.Value" title="@gridMode.Text">@gridMode.Text</a>
+                        <a class="btn btn-sm viewmode-icon list @if (listMode.Selected){<text>active</text>}" href="@listMode.Value" title="@listMode.Text">@listMode.Text</a>
+                    }
+                </div>
+            </div>
+        }
+        @*sorting*@
+        @if (Model.AllowProductSorting || Model.AllowCustomersToSelectPageSize)
+        {
+        <div class="col-12 col-md-auto d-flex order-1">
+            @if (Model.AllowProductSorting)
+            {
+                <div class="col-6 col-md-auto">
+                    <div class="product-sorting">
+                        <span>@T("Catalog.OrderBy"): </span>
+                        @Html.DropDownList("products-orderby", Model.AvailableSortOptions, new { @class = "form-control", onchange = "setLocation(this.value);", aria_label = T("Catalog.OrderBy.Label") })
+                    </div>
+                </div>
+            }
+            @*page size*@
+            @if (Model.AllowCustomersToSelectPageSize)
+            {
+                <div class="col-6 col-md-auto">
+                    <div class="product-page-size">
+                        <span>@T("Catalog.PageSize"): </span>
+                        @Html.DropDownList("products-pagesize", Model.PageSizeOptions, new { @class = "form-control", onchange = "setLocation(this.value);", aria_label = T("Catalog.PageSize.Label") })
+                        <!-- <span>@T("Catalog.PageSize.PerPage")</span> -->
+                    </div>
+                </div>
+            }
+        </div>
+        }
+
+    </div>

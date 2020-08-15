@@ -1,0 +1,147 @@
+﻿@model ConfigurationModel
+
+<script>
+    $(document).ready(function() {
+        $("#@Html.IdFor(model => model.MegaMenuSettings.HideManufacturers)").change(toggleManufacturerProperties);
+        $("#@Html.IdFor(model => model.MegaMenuSettings.ShowNumberofCategoryProducts)").change(toggleShowNumberofCategoryProducts);
+        $("#@Html.IdFor(model => model.MegaMenuSettings.EnableMegaMenu)").change(toggleEnableMegaMenu);
+
+        toggleManufacturerProperties();
+        toggleShowNumberofCategoryProducts();
+        toggleEnableMegaMenu();
+    });
+
+    function toggleManufacturerProperties() {
+        if ($('#@Html.IdFor(model => model.MegaMenuSettings.HideManufacturers)').is(':checked')) {
+            $('#pnlManufacturer').hide();
+        } else {
+            $('#pnlManufacturer').show();
+        }
+    }
+
+    function toggleShowNumberofCategoryProducts() {
+        if ($('#@Html.IdFor(model => model.MegaMenuSettings.ShowNumberofCategoryProducts)').is(':checked')) {
+            $('#pnlShowNumberofCategoryProducts').show();
+        } else {
+            $('#pnlShowNumberofCategoryProducts').hide();
+        }
+    }
+
+    function toggleEnableMegaMenu() {
+        if ($('#@Html.IdFor(model => model.MegaMenuSettings.EnableMegaMenu)').is(':checked')) {
+            $('#pnlEnableMegaMenu').show();
+        } else {
+            $('#pnlEnableMegaMenu').hide();
+        }
+    }
+</script>
+
+<div class="panel-body">
+    <div class="form-group">
+        <div class="col-md-4">
+            <nop-override-store-checkbox asp-for="MegaMenuSettings.EnableMegaMenu_OverrideForStore" asp-input="MegaMenuSettings.EnableMegaMenu" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+            <nop-label asp-for="MegaMenuSettings.EnableMegaMenu" />
+        </div>
+        <div class="col-md-8">
+            <nop-editor asp-for="MegaMenuSettings.EnableMegaMenu" />
+            <span asp-validation-for="MegaMenuSettings.EnableMegaMenu"></span>
+        </div>
+    </div>
+    <div id="pnlEnableMegaMenu">
+        <div class="form-group">
+            <div class="col-md-4">
+                <nop-override-store-checkbox asp-for="MegaMenuSettings.MaxCategoryLevelsToShow_OverrideForStore" asp-input="MegaMenuSettings.MaxCategoryLevelsToShow" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                <nop-label asp-for="MegaMenuSettings.MaxCategoryLevelsToShow" />
+            </div>
+            <div class="col-md-8">
+                <nop-editor asp-for="MegaMenuSettings.MaxCategoryLevelsToShow" />
+                <span asp-validation-for="MegaMenuSettings.MaxCategoryLevelsToShow"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <nop-override-store-checkbox asp-for="MegaMenuSettings.ShowNumberofCategoryProducts_OverrideForStore" asp-input="MegaMenuSettings.ShowNumberofCategoryProducts" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                <nop-label asp-for="MegaMenuSettings.ShowNumberofCategoryProducts" />
+            </div>
+            <div class="col-md-8">
+                <nop-editor asp-for="MegaMenuSettings.ShowNumberofCategoryProducts" />
+                <span asp-validation-for="MegaMenuSettings.ShowNumberofCategoryProducts"></span>
+            </div>
+        </div>
+        <nop-nested-setting asp-for="MegaMenuSettings.ShowNumberofCategoryProducts">
+            <div class="form-group" id="pnlShowNumberofCategoryProducts">
+                <div class="col-md-4">
+                    <nop-override-store-checkbox asp-for="MegaMenuSettings.ShowNumberOfCategoryProductsIncludeSubcategories_OverrideForStore" asp-input="MegaMenuSettings.ShowNumberOfCategoryProductsIncludeSubcategories" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="MegaMenuSettings.ShowNumberOfCategoryProductsIncludeSubcategories" />
+                </div>
+                <div class="col-md-8">
+                    <nop-editor asp-for="MegaMenuSettings.ShowNumberOfCategoryProductsIncludeSubcategories" />
+                    <span asp-validation-for="MegaMenuSettings.ShowNumberOfCategoryProductsIncludeSubcategories"></span>
+                </div>
+            </div>
+        </nop-nested-setting>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                <nop-override-store-checkbox asp-for="MegaMenuSettings.SelectedCategories_OverrideForStore" asp-input="MegaMenuSettings.SelectedCategories" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                <nop-label asp-for="MegaMenuSettings.SelectedCategories" />
+            </div>
+            <div class="col-md-8">
+                <nop-select asp-for="MegaMenuSettings.SelectedCategories" asp-items="Model.MegaMenuSettings.AvailableCategories" asp-multiple="true" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <nop-override-store-checkbox asp-for="MegaMenuSettings.ShowCategoryPicture_OverrideForStore" asp-input="MegaMenuSettings.ShowCategoryPicture" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                <nop-label asp-for="MegaMenuSettings.ShowCategoryPicture" />
+            </div>
+            <div class="col-md-8">
+                <nop-editor asp-for="MegaMenuSettings.ShowCategoryPicture" />
+                <span asp-validation-for="MegaMenuSettings.ShowCategoryPicture"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                <nop-override-store-checkbox asp-for="MegaMenuSettings.ShowSubcategoryPicture_OverrideForStore" asp-input="MegaMenuSettings.ShowSubcategoryPicture" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                <nop-label asp-for="MegaMenuSettings.ShowSubcategoryPicture" />
+            </div>
+            <div class="col-md-8">
+                <nop-editor asp-for="MegaMenuSettings.ShowSubcategoryPicture" />
+                <span asp-validation-for="MegaMenuSettings.ShowSubcategoryPicture"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                <nop-override-store-checkbox asp-for="MegaMenuSettings.HideManufacturers_OverrideForStore" asp-input="MegaMenuSettings.HideManufacturers" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                <nop-label asp-for="MegaMenuSettings.HideManufacturers" />
+            </div>
+            <div class="col-md-8">
+                <nop-editor asp-for="MegaMenuSettings.HideManufacturers" />
+                <span asp-validation-for="MegaMenuSettings.HideManufacturers"></span>
+            </div>
+        </div>
+
+        <div id="pnlManufacturer">
+            <div class="form-group">
+                <div class="col-md-4">
+                    <nop-override-store-checkbox asp-for="MegaMenuSettings.SelectedManufacturers_OverrideForStore" asp-input="MegaMenuSettings.SelectedManufacturers" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="MegaMenuSettings.SelectedManufacturers" />
+                </div>
+                <div class="col-md-8">
+                    <nop-select asp-for="MegaMenuSettings.SelectedManufacturers" asp-items="Model.MegaMenuSettings.AvailableManufacturers" asp-multiple="true" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <nop-override-store-checkbox asp-for="MegaMenuSettings.ShowManufacturerPicture_OverrideForStore" asp-input="MegaMenuSettings.ShowManufacturerPicture" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                    <nop-label asp-for="MegaMenuSettings.ShowManufacturerPicture" />
+                </div>
+                <div class="col-md-8">
+                    <nop-editor asp-for="MegaMenuSettings.ShowManufacturerPicture" />
+                    <span asp-validation-for="MegaMenuSettings.ShowManufacturerPicture"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

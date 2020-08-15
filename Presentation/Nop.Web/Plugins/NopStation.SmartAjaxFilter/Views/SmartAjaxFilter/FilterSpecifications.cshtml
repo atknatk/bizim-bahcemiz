@@ -1,0 +1,81 @@
+﻿@model FilterSpecificationsModel
+
+@using System.Text;
+@using Nop.Plugin.NopStation.SmartAjaxFilter.Domains;
+@using Nop.Plugin.NopStation.SmartAjaxFilter.Models;
+@using Nop.Web.Framework.UI;
+
+@if (Model.SpecificationAttributes != null && Model.SpecificationAttributes.Count > 0)
+{
+    <div id="specification-filter-section">
+        <div class="specification-section">
+            @{ int j = 0; }
+            @foreach (var specificationFilterGroup in Model.SpecificationAttributes)
+            {
+                <div class="filter-section s-@(specificationFilterGroup.Id)" data-id="@(specificationFilterGroup.Id)">
+                    <div class="title">
+                        <h5 class="mb-0 collapsed ajaxfilter-title" data-toggle="collapse" data-parent="#specificationNavigation" data-target="#specificationNavigation" aria-expanded="true" aria-controls="collapseOne">
+                            @specificationFilterGroup.Name <i class="fa fa-angle-down rotate-icon float-right"></i>
+                        </h5>
+                    </div>
+
+                    <div class="listbox collapse show" id="specificationNavigation" aria-labelledby="specificationNavigation">
+                        <div class="ajaxfilter-section">
+                            <input type="hidden" name="specyficationModel][SpecificationAttributes][@j][Name" value="@(specificationFilterGroup.Name)">
+                            <input type="hidden" name="specyficationModel][SpecificationAttributes][@j][Id" value="@(specificationFilterGroup.Id)">
+                            @if (Model.CheckOrDropdowns == FiltersUI.UseCheckboxes)
+                            {
+                                <ul>
+                                    @for (int i = 0; i < specificationFilterGroup.SpecificationAttributeOptions.OrderBy(spo => spo.Name).Count(); i++)
+                                    {
+                                        var specificationFilterItem = specificationFilterGroup.SpecificationAttributeOptions.OrderBy(pva => pva.Name).ElementAt(i);
+                                        string color = "";
+                                        <li data-id="@specificationFilterItem.Id">
+
+                                            <input class="@specificationFilterItem.Id @color d-none" type="checkbox" name="specyficationModel][SpecificationAttributes][@j][SpecificationAttributeOptions][@i][Id" onchange="AjaxFilterChildren.listenToCheckBox(this, '@specificationFilterItem.Id', '@specificationFilterItem.Name.Replace("'", "").Replace("/", " ")'), AjaxFilterChildren.resetFilters()" value="@specificationFilterItem.Id" id="specyficationModel_SpecificationAttributes_@(specificationFilterGroup.Id)_@(i)_Id"
+                                                   @(specificationFilterItem.CheckedState == CheckedState.Checked ? "Checked" : "")
+                                                   @(specificationFilterItem.CheckedState == CheckedState.Disabled ? "Disabled" : "")
+                                                   @(specificationFilterItem.CheckedState == CheckedState.CheckedDisabled ? "Disabled Checked" : "")
+                                                   onclick="AjaxFilter.setFilter('s-@(specificationFilterGroup.Id)')" />
+
+                                            <input type="hidden" name="specyficationModel][SpecificationAttributes][@j][SpecificationAttributeOptions][@i][Id" value=@(specificationFilterItem.CheckedState == CheckedState.CheckedDisabled ? specificationFilterItem.Id.ToString() : "0")>
+                                            <input type="hidden" name="specyficationModel][SpecificationAttributes][@j][SpecificationAttributeOptions][@i][Count" value="@specificationFilterItem.Count">
+                                            <label for="specyficationModel_SpecificationAttributes_@(specificationFilterGroup.Id)_@(i)_Id">
+                                                @if (!String.IsNullOrEmpty(specificationFilterItem.ColorSquaresRgb))
+                                                {
+                                                    <span class="square @(specificationFilterItem.CheckedState == CheckedState.Checked ? "active" : "") @specificationFilterItem.Id" style="background-color: @specificationFilterItem.ColorSquaresRgb" id="square_specyficationModel_SpecificationAttributes_@(specificationFilterGroup.Id)_@(i)_Id"></span>
+                                                    color = "regular-checkbox";
+                                                }
+                                                else
+                                                {
+                                                    <span class="square @(specificationFilterItem.CheckedState == CheckedState.Checked ? "active" : "") @specificationFilterItem.Id" style="background-color: #fff" id="square_specyficationModel_SpecificationAttributes_@(specificationFilterGroup.Id)_@(i)_Id"></span>
+                                                }
+                                                <i>@specificationFilterItem.Name </i>
+                                                <span>(@specificationFilterItem.Count)</span>
+                                            </label>
+                                            <input type="hidden" name="specyficationModel][SpecificationAttributes][@j][SpecificationAttributeOptions][@i][Name" value="@(specificationFilterItem.Name)">
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else if (Model.CheckOrDropdowns == FiltersUI.UseDropdowns)
+                            {
+                                <select name="specyficationModel][SpecificationAttributes][@j][SpecificationAttributeOptions][0][Id" id="specyficationModel_SpecificationAttributes_@(j)_Id" onchange="AjaxFilter.setFilter('s-@(specificationFilterGroup.Id)'), AjaxFilterChildren.listenToSelect('specyficationModel_SpecificationAttributes_@(j)_Id')">
+                                    <option value="" selected="selected">@(specificationFilterGroup.SpecificationAttributeOptions.Where(x => x.CheckedState != CheckedState.Disabled).Count() > 0 ? T("NopStation.SmartAjaxFilter.Filters.All") : T("NopStation.SmartAjaxFilter.Filters.Empty"))</option>
+                                    @foreach (var specificationFilterItem in specificationFilterGroup.SpecificationAttributeOptions.Where(x => x.CheckedState != CheckedState.Disabled).OrderBy(pva => pva.Name))
+                                    {
+                                        @:<option value="@specificationFilterItem.Id" @(specificationFilterItem.CheckedState == CheckedState.Checked || specificationFilterItem.CheckedState == CheckedState.CheckedDisabled ? "Selected" : "" )>@specificationFilterItem.Name</option>
+                                    }
+                                </select>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+                j++;
+            }
+        </div>
+    </div>
+}
+
+

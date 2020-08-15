@@ -1,0 +1,137 @@
+﻿@model ConfigurationModel
+@using Nop.Plugin.NopStation.PwaLite.Areas.Admin.Models
+
+@{
+    Layout = "_AdminLayout";
+    Html.SetActiveMenuItemSystemName("PwaLite.Configuration");
+
+    ViewBag.Title = T("NopStation.PwaLite.Configuration").Text;
+
+    Html.AddScriptParts("~/lib/farbtastic/farbtastic.js");
+    Html.AddCssFileParts("~/lib/farbtastic/farbtastic.css");
+}
+
+<form asp-controller="PwaLite" asp-action="Configure" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("NopStation.PwaLite.Configuration")
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+    
+    <div class="content">
+        <div class="form-horizontal">
+            @await Component.InvokeAsync("StoreScopeConfiguration")
+            <div asp-validation-summary="All"></div>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p>@T("NopStation.PwaLite.Configuration.Manifest.Tooltip")</p>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-override-store-checkbox asp-for="PictureId_OverrideForStore" asp-input="PictureId" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="PictureId" />
+                            </div>
+                            <div class="col-md-8">
+                                <nop-editor asp-for="PictureId" />
+                                <em>@T("NopStation.PwaLite.Configuration.Manifest.PictureId.Hint")</em>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-override-store-checkbox asp-for="Name_OverrideForStore" asp-input="Name" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="Name" />
+                            </div>
+                            <div class="col-md-8">
+                                <nop-editor asp-for="Name" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-override-store-checkbox asp-for="ShortName_OverrideForStore" asp-input="ShortName" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="ShortName" />
+                            </div>
+                            <div class="col-md-8">
+                                <nop-editor asp-for="ShortName" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-override-store-checkbox asp-for="StartUrl_OverrideForStore" asp-input="StartUrl" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="StartUrl" />
+                            </div>
+                            <div class="col-md-8">
+                                <nop-editor asp-for="StartUrl" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-override-store-checkbox asp-for="ApplicationScope_OverrideForStore" asp-input="ApplicationScope" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="ApplicationScope" />
+                            </div>
+                            <div class="col-md-8">
+                                <nop-editor asp-for="ApplicationScope" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-override-store-checkbox asp-for="BackgroundColor_OverrideForStore" asp-input="BackgroundColor" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="BackgroundColor" />
+                            </div>
+                            <div class="col-md-8">
+                                <nop-editor asp-for="BackgroundColor" />
+                                <div id="bg-color-picker"></div>
+                                <script>
+                                    $(document).ready(function(){
+                                        $('#bg-color-picker').farbtastic('#@Html.IdFor(model => model.BackgroundColor)');
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-override-store-checkbox asp-for="ThemeColor_OverrideForStore" asp-input="ThemeColor" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="ThemeColor" />
+                            </div>
+                            <div class="col-md-8">
+                                <nop-editor asp-for="ThemeColor" />
+                                <div id="theme-color-picker"></div>
+                                <script>
+                            $(document).ready(function(){
+                                $('#theme-color-picker').farbtastic('#@Html.IdFor(model => model.ThemeColor)');
+                            });
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <nop-override-store-checkbox asp-for="Display_OverrideForStore" asp-input="Display" asp-store-scope="@Model.ActiveStoreScopeConfiguration" />
+                                <nop-label asp-for="Display" />
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control valid" data-val="true" data-val-required="The Display type field is required." id="Display" name="Display">
+                                    @foreach (var displayType in Model.AvailableDisplayTypes)
+                                    {
+                                        if (displayType.Value == Model.Display)
+                                        {
+                                            <option value="@displayType.Value" selected>@displayType.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@displayType.Value">@displayType.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

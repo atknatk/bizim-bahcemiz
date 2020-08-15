@@ -1,0 +1,53 @@
+﻿@model ProductDetailsModel
+@using Nop.Web.Models.Catalog;
+@using Nop.Core.Domain.Media
+@using Nop.Core.Infrastructure;
+@using Nop.Web.Framework
+@using Nop.Web.Framework.UI
+
+@{
+    Html.AppendScriptParts(ResourceLocation.Footer, "~/Scripts/jquery.magnific-popup.min.js");
+    Html.AddCssFileParts("~/Content/magnific-popup/magnific-popup.css");
+}
+<div class="gallery col-md-6">
+    @if (@Model.DefaultPictureModel.FullSizeImageUrl != null)
+    {
+        <div class="picture @(Model.PictureModels.Count == 1? "single-picture" : null)">
+            @await Component.InvokeAsync("Widget", new { widgetZone = "Truimph_product_ribbon", additionalData = Model.Id })
+            @if (Model.DefaultPictureZoomEnabled)
+             {
+                <a href="@Model.DefaultPictureModel.FullSizeImageUrl" title="@Model.DefaultPictureModel.Title" id="main-product-img-lightbox-anchor-@Model.Id">
+                    <img class="gallery-img" alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.FullSizeImageUrl" title="@Model.DefaultPictureModel.Title" itemprop="image" id="main-product-img-@Model.Id" />
+                </a>
+            }
+            else
+            {
+                <img class="gallery-img" alt="@Model.DefaultPictureModel.AlternateText" src="@Model.DefaultPictureModel.ImageUrl" title="@Model.DefaultPictureModel.Title" itemprop="image" id="main-product-img-@Model.Id" />
+            }
+        </div>
+    }
+
+    <div class="divPictureThumb">
+        @if (Model.PictureModels.Count > 1)
+        {
+            <div class="slick-slider-main">
+                <div class="picture-thumbs quickViewPictureThumbSlider">
+                    @foreach (var picture in Model.PictureModels)
+                    {
+                        <a class="thumb-popup-link" title="@picture.Title" data-largeimage="@picture.FullSizeImageUrl">
+                            <img src="@picture.FullSizeImageUrl" alt="@picture.AlternateText" title="@picture.Title" />
+                        </a>
+                    }
+                </div>
+            </div>
+                <script asp-location="Footer">
+                    $(document).ready(function () {
+                        $('.thumb-popup-link').click(function (event) {
+                            event.preventDefault();
+                            $(".gallery-img").attr('src', $(this).data("largeimage"));
+                        });
+                    });
+                </script>
+        }
+    </div>
+</div>

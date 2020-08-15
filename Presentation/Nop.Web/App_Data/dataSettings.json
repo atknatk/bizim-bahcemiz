@@ -1,0 +1,5 @@
+﻿{
+  "DataConnectionString": "server=34.91.251.209;database=bizim_bahcemiz2;allowuservariables=True;user id=root;password=1.Atik.1",
+  "DataProvider": "mysql",
+  "RawDataSettings": {}
+}

@@ -1,0 +1,49 @@
+﻿@model MegaMenuModel.CategoryLineModel
+
+<li class="nav-item dropdown">
+    <a class="nav-link text-ellipsis" href="@Url.RouteUrl("Category", new { SeName = Model.Category.SeName })">
+        @if (Model.Category.PictureModel != null && !string.IsNullOrEmpty(Model.Category.PictureModel.ImageUrl))
+        {
+            <img class="img-fluid d-none d-lg-block" src="@Model.Category.PictureModel.ImageUrl" alt="@Model.Category.PictureModel.AlternateText" />
+        }
+        <span>@Model.Category.Name</span>
+        @if (Model.Category.NumberOfProducts.HasValue)
+        {
+            <span>
+                <text> </text>@T("Categories.TotalProducts", Model.Category.NumberOfProducts.Value)
+            </span>
+        }
+    </a>
+
+    @{
+        //subcategories
+        var subCategories = Model.ResponsiveMobileMenu ?
+            //responsive (all categories)
+            Model.Category.SubCategories :
+            //standard design (only categories with "IncludeInTopMenu")
+            Model.Category.SubCategories.Where(x => x.IncludeInTopMenu).ToList();
+
+        var levelClass = "";
+        if (Model.Level == 0)
+        {
+            levelClass = "first-level";
+        }
+        if (subCategories.Count > 0 && Model.Level <= Model.MaxLevel)
+        {
+            <div class="sublist-toggle"></div>
+            <ul class="sublist @levelClass">
+                @foreach (var subCategory in subCategories)
+                {
+                    var categoryLineModel = new MegaMenuModel.CategoryLineModel
+                    {
+                        Category = subCategory,
+                        Level = Model.Level + 1,
+                        MaxLevel = Model.MaxLevel,
+                        ResponsiveMobileMenu = Model.ResponsiveMobileMenu
+                    };
+                    @await Html.PartialAsync("_CategoryLine.MegaMenu.cshtml", categoryLineModel)
+                }
+            </ul>
+        }
+    }
+</li>

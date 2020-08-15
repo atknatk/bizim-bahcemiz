@@ -1,0 +1,77 @@
+﻿@model ConfigurationModel
+
+@{
+    Layout = "_AdminLayout";
+    Html.SetActiveMenuItemSystemName("MegaMenu.Configuration");
+    ViewBag.Title = T("NopStation.MegaMenu.Configuration").Text;
+}
+
+<script>
+    $(document).ready(function() {
+        $("#@Html.IdFor(model => model.MegaMenuSettings.HideManufacturers)").change(toggleManufacturerProperties);
+        $("#@Html.IdFor(model => model.MegaMenuSettings.ShowNumberofCategoryProducts)").change(toggleShowNumberofCategoryProducts);
+        $("#@Html.IdFor(model => model.MegaMenuSettings.EnableMegaMenu)").change(toggleEnableMegaMenu);
+
+        toggleManufacturerProperties();
+        toggleShowNumberofCategoryProducts();
+        toggleEnableMegaMenu();
+    });
+
+    function toggleManufacturerProperties() {
+        if ($('#@Html.IdFor(model => model.MegaMenuSettings.HideManufacturers)').is(':checked')) {
+            $('#pnlManufacturer').hide();
+        } else {
+            $('#pnlManufacturer').show();
+        }
+    }
+
+    function toggleShowNumberofCategoryProducts() {
+        if ($('#@Html.IdFor(model => model.MegaMenuSettings.ShowNumberofCategoryProducts)').is(':checked')) {
+            $('#pnlShowNumberofCategoryProducts').show();
+        } else {
+            $('#pnlShowNumberofCategoryProducts').hide();
+        }
+    }
+
+    function toggleEnableMegaMenu() {
+        if ($('#@Html.IdFor(model => model.MegaMenuSettings.EnableMegaMenu)').is(':checked')) {
+            $('#pnlEnableMegaMenu').show();
+        } else {
+            $('#pnlEnableMegaMenu').hide();
+        }
+    }
+</script>
+
+@{
+    const string hideMegaMenuBlockAttributeName = "MegaMenuSettingsPage.HideMegaMenuBlock";
+    var hideMegaMenuBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideMegaMenuBlockAttributeName);
+
+    const string hideTopMenuItemsBlockAttributeName = "MegaMenuSettingsPage.HideTopMenuItemsBlock";
+    var hideTopMenuItemsBlock = genericAttributeService.GetAttribute<bool>(workContext.CurrentCustomer, hideTopMenuItemsBlockAttributeName);
+}
+
+<form asp-controller="MegaMenu" asp-action="Configure" method="post">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            @T("NopStation.MegaMenu.Configuration")
+        </h1>
+        <div class="pull-right">
+            <button type="submit" name="save" class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                @T("Admin.Common.Save")
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            @await Component.InvokeAsync("StoreScopeConfiguration")
+            <div asp-validation-summary="All"></div>
+
+            <nop-panels id="generalcommon-panels">
+                <nop-panel asp-name="megamenu-megamenu-items" asp-icon="fa fa-info" asp-title="@T("NopStation.MegaMenu.Configuration.BlockTitle.MegaMenuItems")" asp-hide-block-attribute-name="@hideMegaMenuBlockAttributeName" asp-hide="@hideMegaMenuBlock" asp-advanced="false">@await Html.PartialAsync("_MegaMenuItems", Model)</nop-panel>
+                <nop-panel asp-name="megamenu-top-menu-items" asp-icon="fa fa-level-up" asp-title="@T("NopStation.MegaMenu.Configuration.BlockTitle.TopMenuItems")" asp-hide-block-attribute-name="@hideTopMenuItemsBlockAttributeName" asp-hide="@hideTopMenuItemsBlock" asp-advanced="true">@await Html.PartialAsync("_TopMenuItems", Model)</nop-panel>
+            </nop-panels>
+        </div>
+    </div>
+</form>
