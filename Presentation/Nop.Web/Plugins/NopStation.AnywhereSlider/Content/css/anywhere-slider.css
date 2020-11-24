@@ -99,8 +99,8 @@
   padding: 10px 30px;
   font-size: 18px;
   display: inline-block;
-  border: 2px solid #007aff;
-  background-color: #007aff;
+  border: 2px solid #34c1cb;
+  background-color: #34c1cb;
   color: #fffffd;
   -webkit-transition: all .3s;
   transition: all .3s;
@@ -188,12 +188,12 @@
 .anywhere-slider-container .owl-nav button {
   display: inline-block;
   color: #fffffd;
-  background-color: #007aff !important;
+  background-color: #34c1cb !important;
   font-size: 0;
   height: 40px;
   width: 40px;
   margin-right: 10px;
-  background: linear-gradient(45deg,#007aff 0%,#1976D2 100%);
+  background: linear-gradient(45deg,#34c1cb 0%,#1976D2 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$theme_color',endColorstr='$theme_light_color',GradientType=1 );
 }
 
